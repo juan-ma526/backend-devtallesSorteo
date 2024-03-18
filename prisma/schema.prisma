@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+
+model Usuario {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  email    String  @unique
+  password String
+  name     String?
+}
+
+model Sorteo {
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  description   String
+  startDate     DateTime
+  status        Boolean        @default(true)
+  image         String
+  createdAt     DateTime       @default(now())
+  participantes Participante[]
+  winner        String
+}
+
+
+model Participante {
+  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  username String
+  email    String
+  avatar   String?
+  sorteo   Sorteo  @relation(fields: [sorteoId], references: [id])
+  sorteoId String  @db.ObjectId
+}

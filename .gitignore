@@ -1,0 +1,15 @@
+.env
+
+
+
+node_modules/
+keys/
+.env
+
+dist/*
+
+# local env files
+.env*.local
+
+# vercel
+.vercel
