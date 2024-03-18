@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { prisma } from "../../data";
 import { envs } from "../../config";
-import { format, parse } from "url";
+import { parse } from "url";
 
 export class authController {
   constructor() {

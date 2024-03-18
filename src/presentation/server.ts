@@ -2,7 +2,7 @@ import express, { Router } from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-
+import morgan from "morgan";
 interface Options {
   port: number;
   routes: Router;
@@ -25,6 +25,7 @@ export class Server {
   async start() {
     //* Middlewares
     this.app.use(cors({ origin: "http://localhost:3001", credentials: true }));
+    this.app.use(morgan("dev"));
     this.app.use(express.json()); // raw
     this.app.use(express.urlencoded({ extended: true })); // x-www-form-urlencoded
     this.app.use(cookieParser());
