@@ -94,7 +94,7 @@ export class authController {
             );
             if (participanteExistente.length > 0) {
               //REVISAR ESTE CODIGO
-              res.writeHead(302, { Location: "http://localhost:3001/error" });
+              res.writeHead(302, { Location: "https://devtalles-codequest-sorteos-gamma.vercel.app/error" });
               res.end();
               return;
             }
@@ -109,13 +109,13 @@ export class authController {
             });
           }
         } else {
-          res.writeHead(302, { Location: "http://localhost:3001/user-notfound" });
+          res.writeHead(302, { Location: "https://devtalles-codequest-sorteos-gamma.vercel.app/user-notfound" });
           res.end();
           return;
         }
 
         // Supongamos que 'req' es de tipo IncomingMessage y 'res' es de tipo ServerResponse
-        res.writeHead(302, { Location: "http://localhost:3001/success" });
+        res.writeHead(302, { Location: "https://devtalles-codequest-sorteos-gamma.vercel.app/success" });
         res.end();
       }
     } catch (error) {

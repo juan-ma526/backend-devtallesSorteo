@@ -105,14 +105,11 @@ export class usuarioController {
 
   async logoutUser(req: Request, res: Response) {
     try {
-      const token = req.cookies["token"];
-      if (!token) return res.status(400).json({ message: "No hay un usuario" });
-      res.clearCookie("token");
-      return res.status(200).json({ logout: "Cerraste sesion correctamente" });
+      res.cookie("token", "", { expires: new Date(0) });
 
-      //metodo para eliminar la cookie
+      return res.status(200).json({ logout: "Cerraste sesion correctamente" });
     } catch (error) {
-      return res.status(401).json({ error: "no existe un usuario-logeado" });
+      return res.status(401).json({ error: error });
     }
   }
 }
