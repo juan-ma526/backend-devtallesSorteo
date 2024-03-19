@@ -24,7 +24,7 @@ export class Server {
 
   async start() {
     //* Middlewares
-    this.app.use(cors({ origin: "http://localhost:3001", credentials: true }));
+    this.app.use(cors({ origin: "*", credentials: true }));
     this.app.use(morgan("dev"));
     this.app.use(express.json()); // raw
     this.app.use(express.urlencoded({ extended: true })); // x-www-form-urlencoded
