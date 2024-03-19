@@ -107,7 +107,7 @@ export class usuarioController {
     try {
       res.cookie("token", "", { expires: new Date(0) });
 
-      return res.status(200).json({ logout: "Cerraste sesion correctamente" });
+      return res.sendStatus(200);
     } catch (error) {
       return res.status(401).json({ error: error });
     }

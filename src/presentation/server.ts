@@ -1,6 +1,5 @@
 import express, { Router } from "express";
 import cors from "cors";
-import path from "path";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 
@@ -41,14 +40,14 @@ export class Server {
     this.app.use(express.urlencoded({ extended: true })); // x-www-form-urlencoded
     this.app.use(cookieParser());
 
-    /* //* Public Folder
-    this.app.use(express.static(this.publicPath)); */
+    //* Public Folder
+    /* this.app.use(express.static(this.publicPath)); */
 
     //* Routes
     this.app.use(this.routes);
 
-    /* //* SPA
-    this.app.get("*", (req, res) => {
+    //* SPA
+    /*this.app.get("*", (req, res) => {
       const indexPath = path.join(__dirname + `../../../${this.publicPath}/index.html`);
       res.sendFile(indexPath);
     }); */
