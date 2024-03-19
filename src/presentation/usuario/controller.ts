@@ -99,7 +99,7 @@ export class usuarioController {
         },
       }); //hojo con esta linea
     } catch (error) {
-      return res.status(500).json(null);
+      return res.status(401).json(null);
     }
   }
 

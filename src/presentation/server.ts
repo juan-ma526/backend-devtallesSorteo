@@ -1,8 +1,9 @@
 import express, { Router } from "express";
+import cors from "cors";
 import path from "path";
 import cookieParser from "cookie-parser";
-import cors from "cors";
 import morgan from "morgan";
+
 interface Options {
   port: number;
   routes: Router;
@@ -24,23 +25,29 @@ export class Server {
 
   async start() {
     //* Middlewares
-    this.app.use(cors({ origin: "*", credentials: true }));
-    this.app.use(morgan("dev"));
     this.app.use(express.json()); // raw
+    this.app.use(
+      cors({
+        origin: ["*", "http://localhost:3000", "http://localhost:3001"],
+        allowedHeaders: ["Content-Type", "withCredentials"],
+        credentials: true,
+      })
+    );
+    this.app.use(morgan("dev"));
     this.app.use(express.urlencoded({ extended: true })); // x-www-form-urlencoded
     this.app.use(cookieParser());
 
-    //* Public Folder
-    this.app.use(express.static(this.publicPath));
+    /* //* Public Folder
+    this.app.use(express.static(this.publicPath)); */
 
     //* Routes
     this.app.use(this.routes);
 
-    //* SPA
+    /* //* SPA
     this.app.get("*", (req, res) => {
       const indexPath = path.join(__dirname + `../../../${this.publicPath}/index.html`);
       res.sendFile(indexPath);
-    });
+    }); */
 
     this.app.listen(this.port, () => {
       console.log(`Server running on port ${this.port}`);
