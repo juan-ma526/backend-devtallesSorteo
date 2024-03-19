@@ -28,7 +28,11 @@ export class Server {
     this.app.use(express.json()); // raw
     this.app.use(
       cors({
-        origin: ["*", "http://localhost:3000", "http://localhost:3001"],
+        origin: [
+          "https://devtalles-codequest-sorteos-gamma.vercel.app",
+          "http://localhost:3000",
+          "http://localhost:3001",
+        ],
         allowedHeaders: ["Content-Type", "withCredentials"],
         credentials: true,
       })
