@@ -132,7 +132,7 @@ export class usuarioController {
 
   async logoutUser(req: Request, res: Response) {
     try {
-      res.cookie("token", "", { expires: new Date(0) });
+      res.clearCookie("token");
 
       return res.sendStatus(200);
     } catch (error) {
