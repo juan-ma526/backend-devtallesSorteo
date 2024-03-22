@@ -6,11 +6,18 @@ import { compare } from "bcrypt";
 
 export class usuarioController {
   constructor() {
+    this.getAllUsuarios = this.getAllUsuarios.bind(this);
     this.loginUsuario = this.loginUsuario.bind(this);
     this.logoutUser = this.logoutUser.bind(this);
     this.RegisterUsuario = this.RegisterUsuario.bind(this);
     this.DeleteUsuario = this.DeleteUsuario.bind(this);
     this.validateTokenUser = this.validateTokenUser.bind(this);
+  }
+
+  async getAllUsuarios(req: Request, res: Response) {
+    const usuariosData = await prisma.usuario.findMany({});
+
+    return res.status(200).json({ usuariosData });
   }
 
   async loginUsuario(req: Request, res: Response) {
