@@ -33,26 +33,8 @@ export class Server {
           "http://localhost:3001",
           "https://backend-devtallessorteo.onrender.com",
         ],
-        allowedHeaders: [
-          "Access-Control-Allow-Credentials",
-          "Access-Control-Allow-Headers",
-          "Access-Control-Allow-Origin",
-          "Access-Control-Allow-Cross-Origin",
-          "Access-Control-Allow-Methods",
-          "Origin",
-          "WithCredentials",
-          "X-Requested-Wwith",
-          "Content-Type",
-          "Accept",
-          "Authorization",
-          "X-HTTP-Method-Override",
-          "Set-Cookie",
-          "Cookie",
-          "Request",
-        ],
+        allowedHeaders: ["Content-Type", "withCredentials"],
         credentials: true,
-        methods: ["GET", "POST", "PUT", "DELETE"],
-        optionsSuccessStatus: 200,
       })
     );
     this.app.use(morgan("dev"));

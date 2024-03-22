@@ -4,7 +4,7 @@ import { envs } from "./envs";
 export const jwtAdapter = {
   generateToken: async (payload: any, jwt_seed = envs.TOKEN_SECRET) => {
     return new Promise((resolve, reject) => {
-      jwt.sign(`${payload}`, jwt_seed, { expiresIn: "1d" }, (err: any, token: any) => {
+      jwt.sign(payload, jwt_seed, { expiresIn: "1d" }, (err: any, token: any) => {
         if (err) return reject(err);
         resolve(token);
       });
