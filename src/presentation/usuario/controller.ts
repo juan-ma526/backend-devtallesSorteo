@@ -40,7 +40,7 @@ export class usuarioController {
         if (err) {
           throw err;
         }
-        res.cookie("token", token, { httpOnly: true }).send(emailExist.id);
+        res.cookie("token", token, { httpOnly: true }).json({ id: emailExist.id });
       });
     } catch (error: any) {
       res.status(500).send({ message: error.message });
@@ -107,17 +107,17 @@ export class usuarioController {
       const { token } = req.cookies;
 
       if (!token) {
-        return res.status(401).send(null);
+        return res.status(401).json({ user: null });
       }
       if (token) {
         jwt.verify(token, envs.TOKEN_SECRET, (err: any, user: any) => {
           if (err) {
             throw err;
           }
-          res.send(user);
+          res.json(user);
         });
       } else {
-        res.send(null);
+        res.json({ user: null });
       }
 
       /*  const userData = await prisma.usuario.findUnique({
