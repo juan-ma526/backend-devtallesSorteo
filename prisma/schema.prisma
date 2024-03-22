@@ -21,10 +21,10 @@ model Sorteo {
   description   String
   startDate     DateTime
   status        Boolean        @default(true)
-  image         String
+  image         String?
   createdAt     DateTime       @default(now())
   participantes Participante[]
-  winner        String
+  winner        String?
 }
 
 
