@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { prisma } from "../../data";
-import { bcryptAdapter, jwtAdapter } from "../../config";
+import { bcryptAdapter, envs } from "../../config";
+import jwt from "jsonwebtoken";
+import { compare } from "bcrypt";
 
 export class usuarioController {
   constructor() {
@@ -14,27 +16,35 @@ export class usuarioController {
   async loginUsuario(req: Request, res: Response) {
     const { email, password } = req.body;
 
-    const emailExist = await prisma.usuario.findUnique({
-      where: {
-        email: email,
-      },
-    });
-    if (!emailExist)
-      return res.status(400).json({
-        error: "El usuario o la contraseña son incorrectos-correo",
+    try {
+      const emailExist = await prisma.usuario.findUnique({
+        where: {
+          email: email,
+        },
       });
 
-    const passwordUnhashed = await bcryptAdapter.compare(password, emailExist.password);
-    if (!passwordUnhashed)
-      return res.status(400).json({
-        error: "El usuario o la contraseña son incorrectos",
+      if (!emailExist)
+        return res.status(400).json({
+          error: "El email es incorrectos",
+        });
+
+      const passwordUnhashed = await compare(password, emailExist.password);
+
+      if (!passwordUnhashed) {
+        return res.status(400).json({
+          error: "La contraseña es incorrecta",
+        });
+      }
+
+      jwt.sign({ id: emailExist.id }, envs.TOKEN_SECRET, { expiresIn: "1d" }, (err, token) => {
+        if (err) {
+          throw err;
+        }
+        res.cookie("token", token, { httpOnly: true }).send(emailExist.id);
       });
-
-    const token = await jwtAdapter.generateToken(emailExist.id);
-
-    res.cookie("token", token, { httpOnly: true, sameSite: "none", secure: true });
-
-    return res.status(200).json(emailExist.email);
+    } catch (error: any) {
+      res.status(500).send({ message: error.message });
+    }
   }
 
   async RegisterUsuario(req: Request, res: Response) {
@@ -46,6 +56,7 @@ export class usuarioController {
         email: email,
       },
     });
+
     if (emailExist)
       return res.status(400).json({
         error: "El correo ya existe",
@@ -93,26 +104,27 @@ export class usuarioController {
 
   async validateTokenUser(req: Request, res: Response) {
     try {
-      const token = req.cookies["token"];
-      const verifyToken: any = await jwtAdapter.validateToken(token);
+      const { token } = req.cookies;
 
-      if (!verifyToken) {
-        return res.status(401).json(null);
+      if (!token) {
+        return res.status(401).send(null);
+      }
+      if (token) {
+        jwt.verify(token, envs.TOKEN_SECRET, (err: any, user: any) => {
+          if (err) {
+            throw err;
+          }
+          res.send(user);
+        });
+      } else {
+        res.send(null);
       }
 
-      const userData = await prisma.usuario.findUnique({
+      /*  const userData = await prisma.usuario.findUnique({
         where: {
           id: verifyToken,
         },
-      });
-
-      return res.status(200).json({
-        user: {
-          id: userData?.id,
-          email: userData?.email,
-          name: userData?.name,
-        },
-      }); //hojo con esta linea
+      }); */
     } catch (error) {
       return res.status(401).json(null);
     }
