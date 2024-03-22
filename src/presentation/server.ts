@@ -31,6 +31,7 @@ export class Server {
           "https://devtalles-codequest-sorteos-gamma.vercel.app",
           "http://localhost:3000",
           "http://localhost:3001",
+          "https://backend-devtallessorteo.onrender.com",
         ],
         allowedHeaders: ["Content-Type", "withCredentials"],
         credentials: true,
