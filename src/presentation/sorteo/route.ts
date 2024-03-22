@@ -8,7 +8,7 @@ export class SorteoRoutes {
     const controller = new SorteoController();
     // Definir las rutas
     router.get("/", controller.getSorteos);
-    router.get("/", controller.getSorteosOne);
+    router.get("/:id", controller.getSorteosOne);
     router.post("/", controller.postSorteos);
     router.patch("/:id", controller.patchSorteos);
 
