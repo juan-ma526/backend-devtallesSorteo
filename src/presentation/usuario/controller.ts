@@ -56,6 +56,13 @@ export class usuarioController {
 
   async RegisterUsuario(req: Request, res: Response) {
     const { email, password, name } = req.body; //esto me retorna el body del post
+
+    if (!email || !password || !name) {
+      return res.status(400).json({
+        error: "Todos los campos son obligatorios",
+      });
+    }
+
     const passwordHashed = bcryptAdapter.hash(password);
 
     const emailExist = await prisma.usuario.findUnique({
