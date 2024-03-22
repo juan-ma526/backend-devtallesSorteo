@@ -27,12 +27,12 @@ export class usuarioController {
     const passwordUnhashed = await bcryptAdapter.compare(password, emailExist.password);
     if (!passwordUnhashed)
       return res.status(400).json({
-        error: "El usuario o la contraseña son incorrectos-password",
+        error: "El usuario o la contraseña son incorrectos",
       });
 
     const token = await jwtAdapter.generateToken(emailExist.id);
 
-    res.cookie("token", token, { httpOnly: true });
+    res.cookie("token", token, { httpOnly: true, sameSite: "none", secure: true });
 
     return res.status(200).json(emailExist.email);
   }
@@ -40,6 +40,16 @@ export class usuarioController {
   async RegisterUsuario(req: Request, res: Response) {
     const { email, password, name } = req.body; //esto me retorna el body del post
     const passwordHashed = bcryptAdapter.hash(password);
+
+    const emailExist = await prisma.usuario.findUnique({
+      where: {
+        email: email,
+      },
+    });
+    if (emailExist)
+      return res.status(400).json({
+        error: "El correo ya existe",
+      });
 
     const userData = {
       email,
@@ -85,6 +95,11 @@ export class usuarioController {
     try {
       const token = req.cookies["token"];
       const verifyToken: any = await jwtAdapter.validateToken(token);
+
+      if (!verifyToken) {
+        return res.status(401).json(null);
+      }
+
       const userData = await prisma.usuario.findUnique({
         where: {
           id: verifyToken,
