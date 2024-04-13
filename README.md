@@ -2,7 +2,7 @@
 
 Pasos para levantar la app de desarrollo
 
-1. Clonar el repositorio devtalles-codequest-sorteos de el repositorio https://github.com/juan-ma526?tab=repositories
+1. Clonar el repositorio devtalles-codequest-sorteos de el repositorio https://github.com/juan-ma526/devtalles-codequest-sorteos
 2. Seguir las instrucciones del repositorio para levantar el frontend localmente.
 3. Crear una copia de el .env.template y renombrarlo a .env
 4. Reemplazar las variables de entorno
@@ -23,7 +23,7 @@ npx prisma generate
 
 ## Nota: Usuario por defecto
 
-**usuario** admin@google.com
+**usuario** admin@gmail.com
 **password** 1234
 
 ## Nota: Si solo quieres probar la App ya esta hecho el deploy solo usar el usuario para el login, o registrar uno nuevo y probarla
